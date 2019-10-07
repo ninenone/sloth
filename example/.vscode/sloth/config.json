@@ -1,0 +1,63 @@
+{
+    "global": {
+        "Create Screen": {
+            "vars": ["screenName", "controllerName"],
+            "actions": [
+                {
+                    "where": ["source", "ui", "screens"],
+                    "what": {
+                        "path": ["screen"]
+                    }
+                },
+                {
+                    "where": ["source", "controllers", "screens"],
+                    "what": {
+                        "path": ["screenController"]
+                    }
+                }
+            ]
+        }
+    },
+    "local": {
+        "Create Function Component": {
+            "vars": ["componentName"],
+            "action": {
+                "what": {
+                    "path": ["component"]
+                }
+            }
+        },
+        "Create Function Component With Controller": {
+            "vars": ["componentName", "controllerName"],
+            "action": {
+                "what": {
+                    "path": ["componentWithController"]
+                }
+            }
+        },
+        "Create Screen": {
+            "vars": ["screenName"],
+            "action": {
+                "what": {
+                    "path": ["screen"]
+                }
+            }
+        },
+        "Create Screen With Controller": {
+            "vars": ["screenName", "controllerName"],
+            "action": {
+                "what": {
+                    "path": ["screenWithController"]
+                }
+            }
+        },
+        "Create ScreenController": {
+            "vars": ["controllerName"],
+            "action": {
+                "what": {
+                    "path": ["screenController"]
+                }
+            }
+        }
+    }
+}
