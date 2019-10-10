@@ -1,12 +1,59 @@
 {
     "global": {
-        "Create Screen": {
+        "Screen": {
+            "vars": ["screenName", "controllerName"],
+            "actions": [
+                {
+                    "action": "create",
+                    "where": ["source", "ui", "screens"],
+                    "what": {
+                        "path": ["screen"]
+                    }
+                },
+                {
+                    "action": "create",
+                    "where": ["source", "controllers", "screens"],
+                    "what": {
+                        "path": ["screenController"]
+                    }
+                },
+                {
+                    "action": "insert",
+                    "where": ["source", "controllers", "controllers.ts"],
+                    "tasks": [
+                        {
+                            "what": "import { ${screenName}ScreenController } from './screens/${controllerName}/${controllerName}.screen_controller'",
+                            "tag": "Controller import"
+                        },
+                        {
+                            "what": "    public readonly ${controllerName} = new ${screenName}ScreenController()",
+                            "tag": "Screen controllers"
+                        }
+                    ]
+                },
+                {
+                    "action": "insert",
+                    "where": ["source", "navigation", "routes.ts"],
+                    "tasks": [
+                        {
+                            "what": "import ${screenName} from '@ui/screens/${screenName}/${screenName}'",
+                            "tag": "Screen import"
+                        },
+                        {
+                            "what": "    ${screenName}: { screen: screenWithControllerHOC(${screenName}, '${controllerName}') },",
+                            "tag": "Route registration"
+                        }
+                    ]
+                }
+            ]
+        },
+        "Screen With Linked Controller": {
             "vars": ["screenName", "controllerName"],
             "actions": [
                 {
                     "where": ["source", "ui", "screens"],
                     "what": {
-                        "path": ["screen"]
+                        "path": ["screenWithController"]
                     }
                 },
                 {
@@ -19,7 +66,7 @@
         }
     },
     "local": {
-        "Create Function Component": {
+        "Function Component": {
             "vars": ["componentName"],
             "action": {
                 "what": {
@@ -27,7 +74,7 @@
                 }
             }
         },
-        "Create Function Component With Controller": {
+        "Component With Controller": {
             "vars": ["componentName", "controllerName"],
             "action": {
                 "what": {
@@ -35,27 +82,11 @@
                 }
             }
         },
-        "Create Screen": {
-            "vars": ["screenName"],
+        "Container": {
+            "vars": ["containerName"],
             "action": {
                 "what": {
-                    "path": ["screen"]
-                }
-            }
-        },
-        "Create Screen With Controller": {
-            "vars": ["screenName", "controllerName"],
-            "action": {
-                "what": {
-                    "path": ["screenWithController"]
-                }
-            }
-        },
-        "Create ScreenController": {
-            "vars": ["controllerName"],
-            "action": {
-                "what": {
-                    "path": ["screenController"]
+                    "path": ["container"]
                 }
             }
         }
