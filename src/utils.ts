@@ -64,14 +64,10 @@ export const insertInFile = (
 
   let actualContent = fileContent;
 
-  console.log(actualContent);
-
   for (const task of tasks) {
     const actualLine = replaceAllVarNamesByValues(task.what, vars);
 
     const fullTag = `// @sloth ${task.tag}`;
-
-    console.log(actualContent);
 
     actualContent = actualContent.replace(
       new RegExp(fullTag, "g"),
