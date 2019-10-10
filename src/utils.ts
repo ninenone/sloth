@@ -49,6 +49,39 @@ export const copyTemplateWithReplacements = (
   }
 };
 
+export const insertInFile = (
+  path: string,
+  tasks: { tag: string; what: string }[],
+  vars: Vars
+) => {
+  const fileContent = fs.readFileSync(path, {
+    encoding: "utf8"
+  });
+
+  if (!fileContent) {
+    vscode.window.showErrorMessage("Could not find file " + path);
+  }
+
+  let actualContent = fileContent;
+
+  console.log(actualContent);
+
+  for (const task of tasks) {
+    const actualLine = replaceAllVarNamesByValues(task.what, vars);
+
+    const fullTag = `// @sloth ${task.tag}`;
+
+    console.log(actualContent);
+
+    actualContent = actualContent.replace(
+      new RegExp(fullTag, "g"),
+      `${fullTag}\n${actualLine}`
+    );
+  }
+
+  fs.writeFileSync(path, actualContent);
+};
+
 export const replaceAllVarNamesByValues = (origin: string, vars: Vars) => {
   let actual = origin;
   for (const varName of Object.keys(vars)) {

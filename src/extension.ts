@@ -1,27 +1,53 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { copyTemplateWithReplacements, getConfig } from "./utils";
+import { copyTemplateWithReplacements, getConfig, insertInFile } from "./utils";
+
+type BaseAction<T> = {
+  action: T;
+};
+
+type CreateAction = BaseAction<"create"> & {
+  where: string[];
+  what: {
+    path: string[];
+  };
+};
+
+type LocalCreateAction = BaseAction<"localCreate"> & {
+  what: {
+    path: string[];
+  };
+};
+
+type InsertAction = BaseAction<"insert"> & {
+  where: string[];
+  tasks: {
+    what: string;
+    tag: string;
+  }[];
+};
+
+type Action = CreateAction | InsertAction;
+
+function isCreateAction(data: Action): data is CreateAction {
+  return data.action === "create";
+}
+
+function isInsertAction(data: Action): data is InsertAction {
+  return data.action === "insert";
+}
 
 type GlobalSlothActions = {
   [key: string]: {
     vars: string[];
-    actions: {
-      where: string[];
-      what: {
-        path: string[];
-      };
-    }[];
+    actions: Action[];
   };
 };
 
 type LocalSlothActions = {
   [key: string]: {
     vars: string[];
-    action: {
-      what: {
-        path: string[];
-      };
-    };
+    action: LocalCreateAction;
   };
 };
 
@@ -85,19 +111,29 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       for (const action of cmd.actions) {
-        const templateDir = path.join(
-          vscode.workspace.rootPath!,
-          ".vscode",
-          "sloth",
-          ...action.what.path
-        );
+        if (isCreateAction(action)) {
+          const templateDir = path.join(
+            vscode.workspace.rootPath!,
+            ".vscode",
+            "sloth",
+            ...action.what.path
+          );
 
-        const destinationDir = path.join(
-          vscode.workspace.rootPath!,
-          ...action.where
-        );
+          const destinationDir = path.join(
+            vscode.workspace.rootPath!,
+            ...action.where
+          );
 
-        copyTemplateWithReplacements(templateDir, destinationDir, vars);
+          copyTemplateWithReplacements(templateDir, destinationDir, vars);
+        } else if (isInsertAction(action)) {
+          const destinationDir = path.join(
+            vscode.workspace.rootPath!,
+            ...action.where
+          );
+          insertInFile(destinationDir, action.tasks, vars);
+        } else {
+          vscode.window.showErrorMessage("Found unexpected action");
+        }
       }
     }
   );
