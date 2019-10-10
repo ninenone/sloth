@@ -1,9 +1,9 @@
 # Change Log
 
-All notable changes to the "sloth" extension will be documented in this file.
+## 0.0.2
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+Added `insert` command
 
-## [Unreleased]
+## 0.0.1
 
-- Initial release
+Released. Capability to create files from templates
