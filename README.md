@@ -23,3 +23,7 @@ To build an extension
 npm install -g vsce
 vsce package
 ```
+
+## TODO
+- Функции типа Capitalize(), lowercase(), snake_case(), camelCase()
+- {{ forloop }}
