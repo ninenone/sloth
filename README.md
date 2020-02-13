@@ -25,6 +25,7 @@ vsce package
 ```
 
 ## TODO
-- Функции типа Capitalize(), lowercase(), snake_case(), camelCase()
-- {{ forloop }}
-- Поддержка нескольких проектов. (Sloth не работает если в explorer открыто несколько проектов)
+
+-   Функции типа Capitalize(), lowercase(), snake_case(), camelCase()
+-   {{ forloop }}
+-   Поддержка нескольких проектов. (Sloth не работает если в explorer открыто несколько проектов)
