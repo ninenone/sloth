@@ -20,7 +20,7 @@ export const copyTemplateWithReplacements = (from: string, to: string, vars: Var
 
     for (const item of fromContent) {
         if (item.isDirectory()) {
-            let actualDirName = replaceAllVarNamesByValues(item.name, vars);
+            const actualDirName = replaceAllVarNamesByValues(item.name, vars);
 
             const templateDirPath = path.join(from, item.name);
             const newDirPath = path.join(to, actualDirName);
@@ -45,7 +45,7 @@ export const copyTemplateWithReplacements = (from: string, to: string, vars: Var
     }
 };
 
-export const insertInFile = (path: string, tasks: { tag: string; what: string }[], vars: Vars) => {
+export const insertInFile = (path: string, tasks: Array<{ tag: string; what: string }>, vars: Vars) => {
     const fileContent = fs.readFileSync(path, {
         encoding: 'utf8',
     });

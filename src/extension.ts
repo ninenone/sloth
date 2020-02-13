@@ -1,5 +1,5 @@
-import * as vscode from 'vscode';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import { copyTemplateWithReplacements, getConfig, insertInFile } from './utils';
 
 type BaseAction<T> = {
@@ -21,10 +21,10 @@ type LocalCreateAction = BaseAction<'localCreate'> & {
 
 type InsertAction = BaseAction<'insert'> & {
     where: string[];
-    tasks: {
+    tasks: Array<{
         what: string;
         tag: string;
-    }[];
+    }>;
 };
 
 type Action = CreateAction | InsertAction;
@@ -59,7 +59,7 @@ type SlothConfig = {
 export function activate(context: vscode.ExtensionContext) {
     const configPath = path.join(vscode.workspace.rootPath!, '.vscode', 'sloth', 'config.json');
 
-    let globalCommand = vscode.commands.registerCommand('extension.sloth', async () => {
+    const globalCommand = vscode.commands.registerCommand('extension.sloth', async () => {
         //   vscode.window.showInformationMessage("Hello World!");
         const config: SlothConfig = await getConfig(configPath);
 
@@ -115,7 +115,7 @@ export function activate(context: vscode.ExtensionContext) {
         }
     });
 
-    let localCommand = vscode.commands.registerCommand('extension.slothLocal', async (destination: vscode.Uri) => {
+    const localCommand = vscode.commands.registerCommand('extension.slothLocal', async (destination: vscode.Uri) => {
         const config: SlothConfig = await getConfig(configPath);
 
         if (!config) {
