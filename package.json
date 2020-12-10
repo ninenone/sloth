@@ -1,6 +1,6 @@
 {
   "name": "sloth",
-  "displayName": "sloth",
+  "displayName": "Sloth: Easy file templates",
   "author": {
     "name": "Sergei Lavinov",
     "email": "lsa@91.team"
@@ -8,9 +8,9 @@
   "repository": {
     "url": "https://github.com/ninenone/sloth"
   },
-  "publisher": "stalder",
-  "description": "Configurable file templates",
-  "version": "0.0.2",
+  "publisher": "Stalder",
+  "description": "Configurable file templates to optimize your workflow",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.36.0"
   },
