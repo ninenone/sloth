@@ -55,8 +55,11 @@
     "@types/vscode": "^1.36.0",
     "glob": "^7.1.4",
     "mocha": "^6.1.4",
-    "typescript": "^3.3.1",
     "tslint": "^5.12.1",
+    "typescript": "^3.3.1",
     "vscode-test": "^1.2.0"
+  },
+  "dependencies": {
+    "change-case": "^4.1.2"
   }
 }

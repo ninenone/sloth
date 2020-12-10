@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import * as path from "path";
+import { camelCase, pascalCase, constantCase, snakeCase } from 'change-case';
 import { copyTemplateWithReplacements, getConfig, insertInFile } from "./utils";
 
 type BaseAction<T> = {
@@ -89,7 +90,7 @@ export function activate(context: vscode.ExtensionContext) {
       );
 
       if (!cmdKey) {
-        vscode.window.showErrorMessage("Comand wasn't chosen");
+        vscode.window.showErrorMessage("Command wasn't chosen");
         return;
       }
 
@@ -107,7 +108,10 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.window.showErrorMessage("Not provided value for " + varName);
           return;
         }
-        vars[varName] = temp;
+        vars[camelCase(varName)] = camelCase(temp);
+        vars[pascalCase(varName)] = pascalCase(temp);
+        vars[constantCase(varName)] = constantCase(temp);
+        vars[snakeCase(varName)] = snakeCase(temp);
       }
 
       for (const action of cmd.actions) {
@@ -162,7 +166,7 @@ export function activate(context: vscode.ExtensionContext) {
       );
 
       if (!cmdKey) {
-        vscode.window.showErrorMessage("Comand wasn't chosen");
+        vscode.window.showErrorMessage("Command wasn't chosen");
         return;
       }
 
@@ -180,7 +184,10 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.window.showErrorMessage("Not provided value for " + varName);
           return;
         }
-        vars[varName] = temp;
+        vars[camelCase(varName)] = camelCase(temp);
+        vars[pascalCase(varName)] = pascalCase(temp);
+        vars[constantCase(varName)] = constantCase(temp);
+        vars[snakeCase(varName)] = snakeCase(temp);
       }
 
       const templateDir = path.join(
@@ -198,4 +205,4 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(localCommand);
 }
 
-export function deactivate() {}
+export function deactivate() { }
