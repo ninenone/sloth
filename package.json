@@ -9,6 +9,7 @@
     "url": "https://github.com/ninenone/sloth"
   },
   "publisher": "Stalder",
+  "icon": "icon.png",
   "description": "Configurable file templates to optimize your workflow",
   "version": "0.0.3",
   "engines": {
