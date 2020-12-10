@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import { camelCase, pascalCase, constantCase, snakeCase } from 'change-case';
-import { copyTemplateWithReplacements, getConfig, insertInFile } from "./utils";
+import { copyTemplateWithReplacements, createDirectory, getConfig, insertInFile, isDirectoryExists } from "./utils";
 
 type BaseAction<T> = {
   action: T;
@@ -201,8 +201,89 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  let createWidgetCommand = vscode.commands.registerCommand(
+    "extension.createSlothWidget",
+    async (widgetName: string, location: vscode.Uri) => {
+      const templateDir = path.join(
+        vscode.workspace.rootPath!,
+        ".vscode",
+        "sloth",
+        "statelessWidget"
+      );
+
+      if (!isDirectoryExists(templateDir)) {
+        vscode.window.showErrorMessage("statelessWidget doesn't exists in sloth");
+        return;
+      }
+
+      const pascal = pascalCase(widgetName);
+      const snake = snakeCase(widgetName);
+
+      const vars: {
+        [key: string]: string;
+      } = {
+        'widget_name': snake,
+        'WidgetName': pascal,
+      };
+
+      const directoryWithTriggeredFile = path.dirname(location.fsPath);
+      const widgetsPath = path.join(directoryWithTriggeredFile, 'widgets');
+
+      if (!isDirectoryExists(widgetsPath)) {
+        createDirectory(widgetsPath);
+      }
+
+      copyTemplateWithReplacements(templateDir, widgetsPath, vars);
+
+      let editor = vscode.window.activeTextEditor;
+      if (!editor) return;
+
+      const fileText = editor.document.getText();
+      const lastImportCharIndex = fileText.lastIndexOf("import '")
+      const lastImportLine = lastImportCharIndex === -1 ? 0 : editor.document.positionAt(lastImportCharIndex).line + 1
+
+      editor.edit(builder => {
+        builder.insert(new vscode.Position(lastImportLine, 0), `import 'widgets/${snake}/${snake}.dart';\n`);
+      });
+    }
+  );
+
   context.subscriptions.push(globalCommand);
   context.subscriptions.push(localCommand);
+  context.subscriptions.push(createWidgetCommand);
+
+  vscode.languages.registerCodeActionsProvider(
+    { language: "dart", scheme: "file" },
+    new SlothWidgetCreator()
+  )
 }
 
 export function deactivate() { }
+
+export class SlothWidgetCreator implements vscode.CodeActionProvider {
+
+  public static readonly providedCodeActionKinds = [
+    vscode.CodeActionKind.QuickFix
+  ];
+
+  provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection, context: vscode.CodeActionContext, token: vscode.CancellationToken): vscode.CodeAction[] {
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) return [];
+
+    const selectedText = editor.document.getText(editor.selection);
+    if (selectedText === "") return [];
+
+    const location = document.uri;
+
+    return [
+      {
+        title: "New Widget...",
+        command: {
+          title: "Create new widget with name of selection",
+          command: "extension.createSlothWidget",
+          arguments: [selectedText, location],
+        },
+      },
+    ];
+  }
+}

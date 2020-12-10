@@ -30,6 +30,10 @@
       {
         "command": "extension.slothLocal",
         "title": "Run Sloth (Right Click Context Menu)"
+      },
+      {
+        "command": "extension.createSlothWidget",
+        "title": "Create new widget with name of selection"
       }
     ],
     "menus": {

@@ -87,3 +87,11 @@ export const replaceAllVarNamesByValues = (origin: string, vars: Vars) => {
 
   return actual;
 };
+
+export const isDirectoryExists = (path: string): boolean => {
+  return fs.existsSync(path);
+}
+
+export const createDirectory = (path: string): void => {
+  return fs.mkdirSync(path);
+}
