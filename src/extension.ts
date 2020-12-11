@@ -218,12 +218,16 @@ export function activate(context: vscode.ExtensionContext) {
 
       const pascal = pascalCase(widgetName);
       const snake = snakeCase(widgetName);
+      const camel = camelCase(widgetName);
+      const constant = constantCase(widgetName);
 
       const vars: {
         [key: string]: string;
       } = {
         'widget_name': snake,
         'WidgetName': pascal,
+        'widgetName': camel,
+        'WIDGET_NAME': constant,
       };
 
       const directoryWithTriggeredFile = path.dirname(location.fsPath);
