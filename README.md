@@ -1,6 +1,6 @@
 # Sloth
 
-VSCode extension, allowing you to generate files from templates (with filling template values) and insert lines in existing files under some `tag`. For example, you can register created screen in the navigator
+VSCode extension, allowing you to generate files from templates (with filling template values) and insert lines in existing files under some `tag`.
 
 ## Features
 
@@ -8,7 +8,7 @@ Define your templates like those in the example, write `config.json` like the on
 
 ## HOW TO
 
-Firstly in the root of your project create folder `.vscode/sloth` and put create there file `config.json`
+Firstly in the root of your project create folder `.vscode/sloth` and create there file `config.json`
 
 This file has following structure:
 ```json
