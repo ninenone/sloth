@@ -67,7 +67,7 @@ This actions will put contents of `screen` template in your `$PROJECT_ROOT/sourc
 
 #### insert
 
-Kind of strange feature allowing you to insert lines in existing files. Not recommended to use, but if really want, put `// @sloth YOUR_TAG` in your code where you want to insert lines. `YOUR_TAG` here is any string. Then add this action in your config
+Kind of strange feature allowing you to insert lines in existing files. Not recommended to use, but if really want, put `// @sloth YOUR_TAG` in your code where you want to insert lines. `YOUR_TAG` here is any string. Then add action in your config. For example:
 
 ```json
 {
@@ -82,7 +82,7 @@ Kind of strange feature allowing you to insert lines in existing files. Not reco
 }
 ```
 
-This example will find `/ @sloth Screen import` in `$PROJECT_ROOT/source/navigation/navigator.dart` and put `import 'package:project_name/src/ui/screens/${screenName}/${screenName}.dart'` under this line. `${screenName}` is value of variable `screenName` passed 
+This example will find `// @sloth Screen import` in `$PROJECT_ROOT/source/navigation/navigator.dart` and put `import 'package:project_name/src/ui/screens/${screenName}/${screenName}.dart'` under this line. `${screenName}` is value of variable `screenName` passed in vars
 
 There can be multiple tasks for 1 file if you have multiple lines to insert.
 
